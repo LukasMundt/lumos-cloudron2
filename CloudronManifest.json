@@ -1,0 +1,12 @@
+{
+  "title": "Lumos",
+  "version": "0.1.0",
+  "healthCheckPath": "/",
+  "httpPort": 80,
+  "addons": {
+    "localstorage": {},
+    "mysql": {}
+  },
+  "manifestVersion": 2,
+  "icon": "logo.phg"
+}
