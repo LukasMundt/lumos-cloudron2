@@ -3,6 +3,19 @@ FROM cloudron/base:4.2.0@sha256:46da2fffb36353ef714f97ae8e962bd2c212ca091108d768
 RUN mkdir -p /app/code
 WORKDIR /app/code
 
+ARG VERSION=0.2.5
+
+RUN wget https://github.com/LukasMundt/lumosBaseApplication/archive/${VERSION}.tar.gz -O -| tar -xz -C /app/code --strip-components=1 && \
+    chown -R www-data:www-data /app/code
+
+RUN wget https://getcomposer.org/download/2.6.5/composer.phar -O /usr/bin/composer && chmod +x /usr/bin/composer
+
+RUN chmod -R g+w bootstrap/cache
+RUN sudo -u www-data composer install --no-interaction --no-suggest --no-dev && \
+    sudo -u www-data composer clear-cache
+
+RUN npm install && npm run build && chown -R www-data:www-data /app/code
+
 # configure apache
 RUN rm /etc/apache2/sites-enabled/*
 RUN sed -e 's,^ErrorLog.*,ErrorLog "|/bin/cat",' -i /etc/apache2/apache2.conf
