@@ -39,4 +39,5 @@ RUN crudini --set /etc/php/8.1/apache2/php.ini PHP upload_max_filesize 256M && \
 COPY index.php start.sh /app/code/
 RUN chown -R www-data.www-data /app/code
 
+RUN chmod +x start.sh
 CMD [ "/app/code/start.sh" ]
